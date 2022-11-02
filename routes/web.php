@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\JoinController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +15,8 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::resource('joins', JoinController::class);
+Route::resource('orders', OrdersController::class);
 Route::get('/', function () {   return view('welcome');});
 Route::resource('products', ProductController::class);
 /*
