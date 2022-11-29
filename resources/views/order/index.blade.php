@@ -16,6 +16,7 @@ $i = 0;
         </div>
     </div>
 
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -23,15 +24,17 @@ $i = 0;
     @endif
 
     <table class="table table-bordered" ;>
-        <tr style=" font-weight: bold;font-size:x-large">
-            <th>ID</th>
+        <tr style=" font-weight: bold;font-size:x-large; background: sandybrown" >
+            <th>Id</th>
+            <th>Product_title</th>
             <th>Qty</th>
             <th>Order_data_time</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($orders as $order)
-            <tr>
+            <tr style="background: sandybrown">
                 <td>{{ ++$i }}</td>
+                <td>{{ $order->product_title }}</td>
                 <td>{{ $order->qtr}}</td>
                 <td>{{ $order->order_data_time}}</td>
                 <td>

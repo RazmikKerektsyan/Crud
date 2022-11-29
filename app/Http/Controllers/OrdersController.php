@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orders;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -14,7 +16,9 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::latest()->get();
+        $orders = Orders::select('orders.*', 'products.title as product_title')
+            ->join("products", "products.id", "=", "orders.product_id")
+            ->get();
         return view('order.index', compact('orders'));
     }
 
@@ -25,32 +29,36 @@ class OrdersController extends Controller
      */
     public function create()
     {
-        return view('order.create');
+//        $order = DB::table('products')->get();
+        $order = Product::all();
+        return view('order.create', compact( 'order'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'qtr' => 'required|numeric',
-            'order_data_time'=>'required'
-        ]);
-        $input = $request->all();
-        Orders::create($input);
 
-            return redirect()->route('orders.index')
-                ->with('success', 'Order created successfully.');
+        $validatedData = $request->validate([
+            'qtr' => 'required|numeric|min:1',
+            'order_data_time' => 'required',
+            'product_id' => 'required|numeric'
+        ]);
+        Orders::create($validatedData);
+
+        return redirect()->route('orders.index')
+            ->with('success', 'Order created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Orders  $orders
+     * @param \App\Models\Orders $orders
      * @return \Illuminate\Http\Response
      */
     public function show(Orders $order)
@@ -62,7 +70,7 @@ class OrdersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Orders  $orders
+     * @param \App\Models\Orders $orders
      * @return \Illuminate\Http\Response
      */
     public function edit(Orders $order)
@@ -73,19 +81,18 @@ class OrdersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Orders  $orders
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Orders $orders
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Orders $order)
     {
-        $request->validate([
-            'qtr' => 'required|numeric',
-            'order_data_time'=>'required'
+        $validateData = $request->validate([
+            'qtr' => 'required|numeric|min:1',
+            'order_data_time' => 'required'
         ]);
 
-        $input = $request->all();
-        $order->update($input);
+        $order->update($validateData);
 
         return redirect()->route('orders.index')
             ->with('success', 'Order updated successfully');
@@ -94,7 +101,7 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Orders  $orders
+     * @param \App\Models\Orders $orders
      * @return \Illuminate\Http\Response
      */
     public function destroy(Orders $order)

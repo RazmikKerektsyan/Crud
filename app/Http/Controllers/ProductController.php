@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models;
 use App\Models\Product;
+use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::get();
         return view('products.index', compact('products'));
     }
 
@@ -40,7 +42,7 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:1',
             'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -92,7 +94,7 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:1',
             'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $input = $request->all();
@@ -123,4 +125,8 @@ class ProductController extends Controller
         return redirect()->route('products.index')
             ->with('success', 'Product deleted successfully');
     }
+
+
 }
+
+

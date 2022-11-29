@@ -1,10 +1,9 @@
-@extends('order.layout')
-
+@extends('products.layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit Order</h2>
+                <h2>Add New Order</h2>
             </div>
         </div>
     </div>
@@ -19,33 +18,34 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('orders.update',$order->id ) }}" method="POST">
+    <form action="{{ route('orders.store', ['product_id'=>$product_id] )}}" method="POST">
         @csrf
-        @method('PUT')
 
-        <div class="row" style="width:1000px;">
+        <div class="form-group" style="width:1100px;">
             <div class="col-xs-12 col-sm-12 col-md-12" style="width: 250px;margin: 7px;border: 4px; padding: 10px;">
                 <div class="form-group">
                     <strong>Qty:</strong>
-                    <input type="number" min="0" name="qtr" value="{{ $order->qtr }}" style="height:50px;width:230px"
-                           class="form-control" placeholder="Qty">
+                    <input type="number" name="qtr" style="height:50px;width:230px" class="form-control"
+                           placeholder="Qty">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12" style="width: 150px;margin: 7px;border: 4px; padding: 10px;">
                 <div class="form-group">
-                    <strong>Order_date_time:</strong>
+                    <strong>Order_data_time:</strong>
                     <input type="datetime-local" class="form-control" style="height:50px;width:100px"
-                           name="order_data_time" value="{{ date('Y-m-d\TH:i', strtotime($order->order_data_time))  }}" placeholder="Order_data_time">
+                           name="order_data_time"
+                           placeholder="Order_data_time">
                 </div>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('orders.index') }}"
+                <a class="btn btn-primary" href="{{ route('products.index') }}"
                    style="width: 100px;top: 130px;background: #3e681ef0;"> Back</a>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center" style="width: 100px;">
-                <button type="submit" class="btn btn-primary" style="background: #3e681ef0;">Edit</button>
+                <button type="submit" class="btn btn-primary" style="background: #3e681ef0;">Create</button>
             </div>
         </div>
 
     </form>
 @endsection
+

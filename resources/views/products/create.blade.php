@@ -33,7 +33,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12" style="width: 150px;margin: 7px;border: 4px; padding: 10px;">
                 <div class="form-group">
                     <strong>Price:</strong>
-                    <input type="number" class="form-control" style="height:50px;width:100px" name="price"
+                    <input type="number" min="0" class="form-control" style="height:50px;width:100px" name="price"
                            placeholder="Price">
                 </div>
             </div>

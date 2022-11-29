@@ -15,6 +15,7 @@ class Orders extends Model
      */
     protected $fillable = [
         'qtr',
-        'order_data_time'
+        'order_data_time',
+        'product_id'
     ];
 }

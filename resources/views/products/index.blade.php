@@ -5,14 +5,25 @@ $i = 0;
 @extends('products.layout')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Products CRUD</h2>
+
+    <div class="">
+        <div class="col-lg-36 margin-tb">
+            <div class="pull-center">
+                <h2>
+                    <center>Products CRUD</center>
+                </h2>
             </div>
-            <div class="pull-right">
+            <div class="pull-left">
                 <a class="btn btn-success" href="{{ route('products.create') }}" style="background: #3e681ef0;"> Create
                     New Product</a>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <a class="btn btn-success" href="{{ route('orders.index') }}" style="background: #3e681ef0;">View
+                    Orders</a>
             </div>
         </div>
     </div>
@@ -23,8 +34,8 @@ $i = 0;
         </div>
     @endif
 
-    <table class="table table-bordered" ;>
-        <tr style=" font-weight: bold;font-size:x-large">
+    <table class="table table-bordered">
+        <tr style=" font-weight: bold;font-size:x-large; background: sandybrown">
             <th>ID</th>
             <th>Title</th>
             <th>Description</th>
@@ -33,20 +44,24 @@ $i = 0;
             <th width="280px">Action</th>
         </tr>
         @foreach ($products as $product)
-            <tr>
+            <tr style="background: sandybrown">
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->title}}</td>
                 <td>{{ $product->description}}</td>
                 <td>{{ $product->price}}</td>
-                <td><img src="/storage/{{ $product->image }}" width="100px"></td>
+                <td><img src="/storage/{{ $product->image }}" width="150px"></td>
                 <td>
                     <form action="{{ route('products.destroy',$product->id) }}" method="POST">
 
-                        <a class="btn btn-info" style="background: #3e681ef0;"
+                        <a class="btn btn-info" style="background: #3e659ef0;"
                            href="{{ route('products.show',$product->id) }}">Show</a>
 
-                        <a class="btn btn-primary" style="background: #3e681ef0;"
+                        <a class="btn btn-primary" style="background: #1e146ef0;"
                            href="{{ route('products.edit',['product'=>$product->id]) }}">Edit</a>
+
+                        <a class="btn btn-primary" style="background: #3e999ef9;"
+                           href="{{ route('products.order',['product_id'=>$product->id]) }}">Order</a>
+
                         @csrf
                         @method('DELETE')
 
